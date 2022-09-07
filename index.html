@@ -169,7 +169,7 @@
         codeEditor.getModel().setEOL(0);
         inputEditor.getModel().setEOL(0);
         codeEditor.onDidChangeModelContent(() => {
-          $(".bytecount").innerText = (codeEditor.getValue().replace(/\r\n/g, "\n").length * Math.log(96) / Math.log(256)).toPrecision(3);
+          $(".bytecount").innerText = +(codeEditor.getValue().replace(/\r\n/g, "\n").length * Math.log(96) / Math.log(256)).toFixed(3);
         });
         if (location.hash) {
           try {
@@ -231,7 +231,7 @@
         const l = codeEditor.getValue().replace(/\r\n/g, "\n").length;
         $(".gen").click();
         $(".copy").style.display = "";
-        $(".output").innerText = `# [Fig](https://github.com/Seggan/Fig), ${(l * Math.log(96) / Math.log(256)).toPrecision(3)} byte${
+        $(".output").innerText = `# [Fig](https://github.com/Seggan/Fig), ${+(l * Math.log(96) / Math.log(256)).toFixed(3)} byte${
           l === 1 ? "" : "s"
         }
 
