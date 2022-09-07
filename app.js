@@ -22,7 +22,6 @@ app.post("/run", (req, res) => {
       res.status(500).send("Writing code to file failed.");
       return;
     }
-    child_process.execSync("unset JAVA_TOOL_OPTIONS");
     const proc = child_process.spawn('java', ['-jar', 'Fig.jar', 'run', 'code.fig', ...req.body.inputs]);
     const timeout = setTimeout(() => proc.kill('SIGINT'), 10000);
     let out = '';
