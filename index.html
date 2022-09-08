@@ -150,7 +150,7 @@
         const c = codeEditor.getValue().replace(/\r\n/g, "\n");
         const valid = [...c].every(x => ascii.includes(x));
         const bc = valid ? +(c.length * Math.log(96) / Math.log(256)).toFixed(3) : new TextEncoder().encode(c).length;
-        return (cgcc && valid ? `\\$${c.length}\\log_{256}(96)\\approx\\$` : "") + bc + " byte" + (bc === 1 ? "" : "s") + (valid ? "" : " (UTF-8)");
+        return (cgcc && valid ? `\\$${c.length}\\log_{256}(96)\\approx\\$ ` : "") + bc + " byte" + (bc === 1 ? "" : "s") + (valid ? "" : " (UTF-8)");
       }
       require(["vs/editor/editor.main"], function () {
         codeEditor = monaco.editor.create(document.querySelector("#code"), {
