@@ -239,7 +239,7 @@
         const l = codeEditor.getValue().replace(/\r\n/g, "\n").length;
         $(".gen").click();
         $(".copy").style.display = "";
-        $(".output").innerText = `# [Fig](https://github.com/Seggan/Fig), ${getByteCount()}
+        $(".output").innerText = `# [Fig](https://github.com/Seggan/Fig), ${getByteCount(true)}
 
 \`\`\`
 ${codeEditor.getValue().replace(/\r\n/g, "\n")}
