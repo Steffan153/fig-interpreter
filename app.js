@@ -2,6 +2,7 @@ const express = require("express");
 const path = require('path');
 const child_process = require('child_process');
 const fs = require("fs");
+const fetch = require('node-fetch');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -17,7 +18,17 @@ app.get("/DejaVuSansMono.ttf", (req, res) => {
 })
 
 app.post("/trash", (req, res) => {
-  console.log(req.body);
+  const b = req.body;
+  if (b.action !== "released") {
+    return res.status(200).send("not released");
+  }
+  if (b.release.assets.length < 1) {
+    return res.status(200).send("no assets");
+  }
+  const url = b.release.assets[0].browser_download_url;
+  fetch(url).then(x => x.text()).then(x => {
+    console.log(x);
+  });
   res.status(200).send("done");
 });
 
