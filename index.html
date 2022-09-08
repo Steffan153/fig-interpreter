@@ -129,7 +129,7 @@
         </button>
       </p>
       <div>
-        <label for="code">Code: <span class="bytecount">0</span> bytes</label>
+        <label for="code">Code: <span class="bytecount">0 bytes</span></label>
       </div>
       <div id="code"></div>
       <div><label for="inputs">Inputs:</label></div>
@@ -168,8 +168,15 @@
         });
         codeEditor.getModel().setEOL(0);
         inputEditor.getModel().setEOL(0);
+        function getByteCount() {
+          const ascii = "\n !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
+          const c = codeEditor.getValue().replace(/\r\n/g, "\n");
+          const valid = [...c].every(x => ascii.includes(x));
+          const bc = valid ? +(c.length * Math.log(96) / Math.log(256)).toFixed(3) : c.length;
+          return bc + " byte" + (bc === 1 ? "" : "s") + (valid ? "" : " (UTF-8)");
+        }
         codeEditor.onDidChangeModelContent(() => {
-          $(".bytecount").innerText = +(codeEditor.getValue().replace(/\r\n/g, "\n").length * Math.log(96) / Math.log(256)).toFixed(3);
+          $(".bytecount").innerText = getByteCount();
         });
         if (location.hash) {
           try {
@@ -231,9 +238,7 @@
         const l = codeEditor.getValue().replace(/\r\n/g, "\n").length;
         $(".gen").click();
         $(".copy").style.display = "";
-        $(".output").innerText = `# [Fig](https://github.com/Seggan/Fig), ${+(l * Math.log(96) / Math.log(256)).toFixed(3)} byte${
-          l === 1 ? "" : "s"
-        }
+        $(".output").innerText = `# [Fig](https://github.com/Seggan/Fig), ${getByteCount()}
 
 \`\`\`
 ${codeEditor.getValue().replace(/\r\n/g, "\n")}
