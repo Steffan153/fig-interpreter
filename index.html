@@ -212,7 +212,7 @@
               throw e;
             })
             .then((x) => {
-              const { out, debug } = x;
+              let { out, debug } = x;
               $(".output").innerText = out;
               debug = debug.replace(/^Picked up JAVA_TOOL_OPTIONS.+/, "");
               if (debug.trim()) {
