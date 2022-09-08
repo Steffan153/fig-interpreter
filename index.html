@@ -214,8 +214,9 @@
             .then((x) => {
               const { out, debug } = x;
               $(".output").innerText = out;
+              debug = debug.replace(/^Picked up JAVA_TOOL_OPTIONS.+/, "");
               if (debug.trim()) {
-                $(".output").innerText += "\n\nDEBUG:\n" + debug;
+                $(".output").innerText += "\n\nDEBUG:\n" + debug.trim();
               }
             })
             .catch((e) => {
