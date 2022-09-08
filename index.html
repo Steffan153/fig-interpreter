@@ -149,7 +149,7 @@
         const ascii = "\n !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
         const c = codeEditor.getValue().replace(/\r\n/g, "\n");
         const valid = [...c].every(x => ascii.includes(x));
-        const bc = valid ? +(c.length * Math.log(96) / Math.log(256)).toFixed(3) : c.length;
+        const bc = valid ? +(c.length * Math.log(96) / Math.log(256)).toFixed(3) : new TextEncoder().encode(c).length;
         return bc + " byte" + (bc === 1 ? "" : "s") + (valid ? "" : " (UTF-8)");
       }
       require(["vs/editor/editor.main"], function () {
