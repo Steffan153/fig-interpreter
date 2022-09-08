@@ -2,7 +2,7 @@ const express = require("express");
 const path = require('path');
 const child_process = require('child_process');
 const fs = require("fs");
-const fetch = require('node-fetch');
+const fetch = require('node-fetch-commonjs');
 
 const app = express();
 const port = process.env.PORT || 3000;
