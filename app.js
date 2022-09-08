@@ -16,6 +16,11 @@ app.get("/DejaVuSansMono.ttf", (req, res) => {
   res.sendFile(path.join(__dirname, "DejaVuSansMono.ttf"));
 })
 
+app.post("/trash", (req, res) => {
+  console.log(req.body);
+  res.status(200).send("done");
+});
+
 app.post("/run", (req, res) => {
   fs.writeFile('code.fig', req.body.code, (err) => {
     if (err) {
