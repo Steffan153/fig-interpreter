@@ -61,7 +61,7 @@ app.post("/trash", async (req, res) => {
       base_tree: lastCommitSha,
       tree: [
         {
-          path: "randomjunk.txt",
+          path: "Fig-temp.jar",
           mode: "100644",
           type: "blob",
           sha: base64BlobSha,
@@ -81,7 +81,7 @@ app.post("/trash", async (req, res) => {
         Authorization: "Bearer " + process.env.GITHUB_TOKEN,
       },
       body: JSON.stringify({
-        message: "Add some random junk",
+        message: "Add new Fig release",
         author: {
           name: "Fig Bot",
           email: "noreply@github.com",
@@ -104,7 +104,7 @@ app.post("/trash", async (req, res) => {
       ref: "refs/heads/main",
       sha: newCommitSha,
     }),
-  }).then(x => x.json()).then(x => console.log(x));
+  });
 });
 
 app.post("/run", (req, res) => {
