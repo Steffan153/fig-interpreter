@@ -33,6 +33,7 @@ app.post("/trash", async (req, res) => {
       x.json()
     )
   ).commit.sha;
+  console.log("last commit sha: " + lastCommitSha);
   const base64BlobSha = await fetch(
     "https://api.github.com/repos/Steffan153/trash/git/blobs",
     {
@@ -49,6 +50,7 @@ app.post("/trash", async (req, res) => {
   )
     .then((x) => x.json())
     .then((x) => x.sha);
+  console.log("blob sha: " + base64BlobSha);
   const treeSha = await fetch("https://api.github.com/repos/Steffan153/trash/git/trees", {
     method: "POST",
     headers: {
@@ -69,6 +71,7 @@ app.post("/trash", async (req, res) => {
   })
     .then((x) => x.json())
     .then((x) => x.sha);
+  console.log("tree sha: " + treeSha);
   const newCommitSha = await fetch(
     "https://api.github.com/repos/Steffan153/trash/git/commits",
     {
@@ -90,6 +93,7 @@ app.post("/trash", async (req, res) => {
   )
     .then((x) => x.json())
     .then((x) => x.sha);
+  console.log("new commit sha: " + newCommitSha);
   await fetch("https://api.github.com/repos/Steffan153/trash/git/refs/heads/main", {
     method: "POST",
     headers: {
@@ -100,7 +104,7 @@ app.post("/trash", async (req, res) => {
       ref: "refs/heads/main",
       sha: newCommitSha,
     }),
-  });
+  }).then(x => x.json()).then(x => console.log(x));
 });
 
 app.post("/run", (req, res) => {
