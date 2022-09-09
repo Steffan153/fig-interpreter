@@ -114,6 +114,7 @@ app.post("/run", (req, res) => {
       return;
     }
     const proc = child_process.spawn("java", [
+      "-Dfile.encoding=UTF-8",
       "-jar",
       "Fig.jar",
       "run",
