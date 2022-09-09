@@ -17,7 +17,7 @@ app.get("/DejaVuSansMono.ttf", (req, res) => {
   res.sendFile(path.join(__dirname, "DejaVuSansMono.ttf"));
 });
 
-app.post("/trash", async (req, res) => {
+app.post("/new-fig-release", async (req, res) => {
   const b = req.body;
   if (b.action !== "released") {
     return res.status(200).send("not released");
@@ -29,13 +29,13 @@ app.post("/trash", async (req, res) => {
   res.status(200).send("done");
   const content = (await fetch(url).then((x) => x.buffer())).toString("base64");
   const lastCommitSha = (
-    await fetch("https://api.github.com/repos/Steffan153/trash/branches/main").then((x) =>
+    await fetch("https://api.github.com/repos/Steffan153/fig-interpreter/branches/main").then((x) =>
       x.json()
     )
   ).commit.sha;
   console.log("last commit sha: " + lastCommitSha);
   const base64BlobSha = await fetch(
-    "https://api.github.com/repos/Steffan153/trash/git/blobs",
+    "https://api.github.com/repos/Steffan153/fig-interpreter/git/blobs",
     {
       method: "POST",
       headers: {
@@ -51,7 +51,7 @@ app.post("/trash", async (req, res) => {
     .then((x) => x.json())
     .then((x) => x.sha);
   console.log("blob sha: " + base64BlobSha);
-  const treeSha = await fetch("https://api.github.com/repos/Steffan153/trash/git/trees", {
+  const treeSha = await fetch("https://api.github.com/repos/Steffan153/fig-interpreter/git/trees", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -61,7 +61,7 @@ app.post("/trash", async (req, res) => {
       base_tree: lastCommitSha,
       tree: [
         {
-          path: "Fig-temp.jar",
+          path: "Fig.jar",
           mode: "100644",
           type: "blob",
           sha: base64BlobSha,
@@ -73,7 +73,7 @@ app.post("/trash", async (req, res) => {
     .then((x) => x.sha);
   console.log("tree sha: " + treeSha);
   const newCommitSha = await fetch(
-    "https://api.github.com/repos/Steffan153/trash/git/commits",
+    "https://api.github.com/repos/Steffan153/fig-interpreter/git/commits",
     {
       method: "POST",
       headers: {
@@ -94,7 +94,7 @@ app.post("/trash", async (req, res) => {
     .then((x) => x.json())
     .then((x) => x.sha);
   console.log("new commit sha: " + newCommitSha);
-  await fetch("https://api.github.com/repos/Steffan153/trash/git/refs/heads/main", {
+  await fetch("https://api.github.com/repos/Steffan153/fig-interpreter/git/refs/heads/main", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
