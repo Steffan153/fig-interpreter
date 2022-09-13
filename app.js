@@ -5,7 +5,7 @@ const fs = require("fs");
 const fetch = require("node-fetch-commonjs");
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 app.use(express.json());
 
@@ -130,6 +130,7 @@ app.post("/run", (req, res) => {
       out += chunk;
       if (out.length > 10000 && !outExceeded) {
         proc.kill("SIGINT");
+        clearTimeout(timeout);
         debug += "\nSTDOUT exceeded 10KB, process was terminated.";
         outExceeded = true;
       }
@@ -138,6 +139,7 @@ app.post("/run", (req, res) => {
       debug += chunk;
       if (debug.length > 10000 && !debugExceeded) {
         proc.kill("SIGINT");
+        clearTimeout(timeout);
         debug += "\nSTDERR exceeded 10KB, process was terminated.";
         debugExceeded = true;
       }

@@ -153,6 +153,29 @@
         return (cgcc && valid ? `\\$${c.length}\\log_{256}(96)\\approx\\$ ` : "") + bc + " byte" + (bc === 1 ? "" : "s") + (valid ? "" : " (UTF-8)");
       }
       require(["vs/editor/editor.main"], function () {
+        monaco.languages.register({ id: "fig" });
+        monaco.languages.setMonarchTokensProvider("fig", {
+          tokenizer: {
+            root: [
+              [/"/, "string", "@dbq"],
+              [/D/, "variable", "@compress"],
+              [/\/./, "string"],
+              [/[ \t\r\n]+/, "white"],
+              [/\d+|\d*\.\d*/, "number"],
+              [/[()'`]/, "keyword"],
+              [/[#mc]./, "type"],
+              [/@./, "keyword"],
+            ],
+            dbq: [
+              [/[^"]+/, "string"],
+              [/"/, "string", "@pop"],
+            ],
+            compress: [
+              [/[^"]+/, "variable"],
+              [/"/, "variable", "@pop"],
+            ],
+          }
+        });
         codeEditor = monaco.editor.create(document.querySelector("#code"), {
           lineNumbers: "off",
           minimap: {
@@ -162,6 +185,7 @@
           theme: "vs-dark",
           wordWrap: "on",
           quickSuggestions: false,
+          language: "fig",
         });
         inputEditor = monaco.editor.create(document.querySelector("#inputs"), {
           lineNumbers: "off",
